@@ -106,6 +106,13 @@
     </dependencies>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.7.0</version>
+            </extension>
+        </extensions>
         <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
             <plugin>
@@ -120,6 +127,7 @@
                     <maxAttempts>240</maxAttempts>
                     <image>
                         <builder>dashaun/builder:tiny</builder>
+                        <name>dashaun/hilla-aot-demo:${project.version}-${os.detected.arch}</name>
                     </image>
                 </configuration>
             </plugin>
