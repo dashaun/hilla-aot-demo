@@ -13,6 +13,7 @@
     <properties>
         <java.version>17</java.version>
         <hilla.version>2.0.0</hilla.version>
+        <testcontainers.version>1.17.6</testcontainers.version>
         <selenium.version>4.8.0</selenium.version>
     </properties>
 
@@ -77,6 +78,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -102,7 +110,22 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-invoker</artifactId>
+            <version>3.2.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -216,6 +239,48 @@
                         <configuration>
                             <trimStackTrace>false</trimStackTrace>
                             <enableAssertions>true</enableAssertions>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>build-image-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <jvmArguments>-Xdebug
+                                -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5292</jvmArguments>
+                            <wait>500</wait>
+                            <maxAttempts>240</maxAttempts>
+                            <image>
+                                <builder>dashaun/builder:tiny</builder>
+                                <name>dashaun/hilla-aot-demo:integration</name>
+                            </image>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>build-native-image-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <jvmArguments>-Xdebug
+                                -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5292</jvmArguments>
+                            <wait>500</wait>
+                            <maxAttempts>240</maxAttempts>
+                            <image>
+                                <builder>dashaun/builder:tiny</builder>
+                                <name>dashaun/hilla-aot-demo:integration-native</name>
+                            </image>
                         </configuration>
                     </plugin>
                 </plugins>
