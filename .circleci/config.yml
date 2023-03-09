@@ -23,7 +23,7 @@ jobs:
           docker-password: DOCKERHUB_PASSWORD
       - docker/push:
           image: dashaun/hilla-aot-demo
-          tag: 1.0-SNAPSHOT-aarch_64
+          tag: $CIRCLE_TAG-aarch_64
 
 workflows:
   arm64-native-workflow:

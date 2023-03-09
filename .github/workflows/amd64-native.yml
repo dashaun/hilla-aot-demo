@@ -48,10 +48,10 @@ jobs:
           timeout_minutes: 5
           retry_wait_seconds: 60
           max_attempts: 6
-          command: docker pull dashaun/hilla-aot-demo:1.0-SNAPSHOT-aarch_64
+          command: docker pull dashaun/hilla-aot-demo:$GITHUB_REF_NAME-aarch_64
       - name: create-manifest
         run: |
-          docker manifest create dashaun/hilla-aot-demo:1.0-SNAPSHOT --amend dashaun/hilla-aot-demo:1.0-SNAPSHOT-x86_64 --amend dashaun/hilla-aot-demo:1.0-SNAPSHOT-aarch_64
-          docker manifest push dashaun/hilla-aot-demo:1.0-SNAPSHOT
-          docker manifest create dashaun/hilla-aot-demo:latest --amend dashaun/hilla-aot-demo:1.0-SNAPSHOT-x86_64 --amend dashaun/hilla-aot-demo:1.0-SNAPSHOT-aarch_64
+          docker manifest create dashaun/hilla-aot-demo:$GITHUB_REF_NAME --amend dashaun/hilla-aot-demo:$GITHUB_REF_NAME-x86_64 --amend dashaun/hilla-aot-demo:$GITHUB_REF_NAME-aarch_64
+          docker manifest push dashaun/hilla-aot-demo:$GITHUB_REF_NAME
+          docker manifest create dashaun/hilla-aot-demo:latest --amend dashaun/hilla-aot-demo:$GITHUB_REF_NAME-x86_64 --amend dashaun/hilla-aot-demo:$GITHUB_REF_NAME-aarch_64
           docker manifest push dashaun/hilla-aot-demo:latest
