@@ -45,7 +45,7 @@ public class BuildNativeImageTest {
 				throw new RuntimeException(buildResult.getExecutionException());
 			}
 
-			return "docker.io/dashaun/hilla-aot-demo:integration-native";
+			return "dashaun/hilla-aot-demo:integration";
 		}
 	};
 
